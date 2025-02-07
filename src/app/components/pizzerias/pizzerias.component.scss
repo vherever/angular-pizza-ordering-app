@@ -1,0 +1,9 @@
+.pizzas-list-container {
+  li {
+    cursor: pointer;
+    border-bottom: 1px solid crimson;
+    &:hover {
+      background-color: lightcyan;
+    }
+  }
+}

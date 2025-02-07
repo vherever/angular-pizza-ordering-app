@@ -1,0 +1,27 @@
+<div *ngIf="isLoading$ | async; else pizzeriaTpl">
+  <img [attr.src]="'loader-square.svg'" alt="Loading" width="50">
+</div>
+
+<ng-template #pizzeriaTpl>
+  <ng-container *ngIf="selectedPizzeria$ | async as selectedPizzeria; else errorLoadingTpl">
+    <h3>Welcome, dear guest! At "{{ selectedPizzeria.name }}" we're delighted to have you. Take your time, explore our
+      delicious menu, and make yourself at home. Or go back to our <a href="" [routerLink]="['../']">pizzerias list</a>.</h3>
+
+    <table width="100%">
+      <tbody>
+        <td valign="top" width="50%">
+          <app-pizzas [selectedPizzeria]="selectedPizzeria"/>
+        </td>
+        <td valign="top" width="50%">
+          <app-order [selectedPizzeria]="selectedPizzeria"/>
+        </td>
+      </tbody>
+    </table>
+  </ng-container>
+</ng-template>
+
+<ng-template #errorLoadingTpl>
+  Oops! We couldn’t find a pizzeria with that ID. No worries — you can explore our full list of delightful pizzerias by
+  clicking ><a
+  href="" [routerLink]="['../']">here</a><. Happy browsing!
+</ng-template>

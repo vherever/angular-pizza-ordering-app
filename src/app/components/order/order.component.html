@@ -1,0 +1,46 @@
+<div class="order-container" *ngIf="selectedPizzas$ | async as selectedPizzas">
+  <ng-container
+    *ngTemplateOutlet="orderConfirmedTemplate; context: { isOrderConfirmed: isOrderConfirmed$ | async, isOrderConfirmationLoading: isOrderConfirmationLoading$ | async }"/>
+
+  <ng-template #orderConfirmedTemplate let-isOrderConfirmed="isOrderConfirmed"
+               let-isOrderConfirmationLoading="isOrderConfirmationLoading">
+    <div *ngIf="isOrderConfirmationLoading; else loadedTemplate">
+      <img [attr.src]="'loader-square.svg'" alt="Loading" width="50">
+    </div>
+
+    <ng-template #loadedTemplate>
+      <h4 *ngIf="!isOrderConfirmed">{{ selectedPizzas.length ? 'Your order details are here' : 'Your order is empty. Start adding some pizzas' }}
+        .</h4>
+
+      <div *ngIf="isOrderConfirmed; else notConfirmed">
+        <p>Your order has been confirmed!</p>
+        <br/>
+        <button type="button" (click)="onNewOrderClick()">New order</button>
+      </div>
+      <ng-template #notConfirmed>
+        <div *ngFor="let pizza of selectedPizzas; trackBy: trackById">
+          <div>
+            <b>{{ pizza.name }}</b>
+            <span>({{ pizza.times }})</span>
+            <button (click)="onPlusClick(pizza)">+</button>
+            <button (click)="onMinusClick(pizza)" *ngIf="pizza.times > 1">-</button>
+            <button (click)="onRemoveClick(pizza)">x</button>
+          </div>
+        </div>
+
+        <hr/>
+        <div *ngIf="sumTotal$ | async as sumTotal">
+          <ng-container *ngIf="sumTotal.totalWithTax">
+            <span>Total: ${{ sumTotal.totalWithTax }}</span>
+            <span *ngIf="sumTotal.totalTax">, including taxes: ${{ sumTotal.totalTax }}</span>
+
+            <br/>
+            <br/>
+            <button type="button" (click)="onConfirmClick(selectedPizzas)">Confirm order</button>
+          </ng-container>
+        </div>
+      </ng-template>
+
+    </ng-template>
+  </ng-template>
+</div>

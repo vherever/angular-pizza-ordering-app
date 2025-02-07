@@ -1,0 +1,12 @@
+<div *ngIf="isLoading$ | async; else pizzasTpl">
+    <img [attr.src]="'loader-square.svg'" alt="Loading" width="50">
+</div>
+
+<ng-template #pizzasTpl>
+    <ul *ngIf="pizzas$ | async as pizzas" class="pizzas-container">
+        <ng-container *ngFor="let pizza of pizzas; trackBy: trackById">
+          <app-pizza [pizza]="pizza" [selectedPizzeria]="selectedPizzeria" />
+        </ng-container>
+    </ul>
+</ng-template>
+

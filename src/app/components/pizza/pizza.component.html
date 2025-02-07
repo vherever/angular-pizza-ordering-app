@@ -1,0 +1,14 @@
+<li>
+    <b>{{ pizza.name }}</b>
+    <div>{{ pizza.description }}</div>
+    <img [attr.src]="pizza.image_url || 'images/pizza-default.png'" [attr.alt]="pizza.name" width="100"
+         (error)="onImageError($event)"/>
+    <div>price: ${{ pizza.price }}</div>
+    <ng-container *ngIf="pizzaTax$ | async as pizzaTax">
+        <div *ngIf="pizza.is_taxed">tax: ${{ pizzaTax }}</div>
+    </ng-container>
+
+    <br/>
+    <button type="button" (click)="onAddClick()">add to cart</button>
+</li>
+<br/>

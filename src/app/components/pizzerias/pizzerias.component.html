@@ -1,0 +1,23 @@
+<div *ngIf="isPizzeriasLoading$ | async; else pizzeriasTpl">
+  <img [attr.src]="'loader-square.svg'" alt="Loading" width="50">
+</div>
+
+<ng-template #pizzeriasTpl>
+  <h4>Here is a list of our pizzerias:</h4>
+
+  <ul class="pizzas-list-container">
+    <li *ngFor="let pizzeria of pizzerias$ | async; trackBy: trackById"
+        (click)="onPizzeriaClick(pizzeria)">
+      <span>[{{ pizzeria.country }}]</span>
+      <span>{{ pizzeria.name }}</span>
+      <div>{{ pizzeria.address }}</div>
+    </li>
+  </ul>
+</ng-template>
+
+<h4>TODO:</h4>
+<ul>
+  <li>ngrx storage usage</li>
+  <li>cache static data like get settings, prevent loading multiple times</li>
+  <li>styling</li>
+</ul>
